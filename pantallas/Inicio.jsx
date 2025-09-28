@@ -3,7 +3,7 @@ import { useRoute } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, ImageBackground, ScrollView, Text, View } from 'react-native';
-import { obtenerCalidadAire, obtenerClimaActual, obtenerPronostico } from '../servicios/climaApi';
+import { obtenerCalidadAire, obtenerClimaActual, obtenerPronostico, obtenerDatosAstronomicos } from '../servicios/climaApi';
 
 // Importar componentes
 import CalidadAire from '../components/CalidadAire';
@@ -11,6 +11,7 @@ import ClimaActual from '../components/ClimaActual';
 import DetallesClima from '../components/DetallesClima';
 import Pronostico from '../components/Pronostico';
 import PronosticoHora from '../components/PronosticoHora';
+import SalidaPuestaSol from '../components/SalidaPuestaSol';
 
 // Importar estilos
 import inicioStyles from '../estilos/inicioStyles';
@@ -23,6 +24,7 @@ const Inicio = () => {
   const [datosClima, setDatosClima] = useState(null);
   const [pronostico, setPronostico] = useState(null);
   const [calidadAire, setCalidadAire] = useState(null);
+  const [datosAstronomicos, setDatosAstronomicos] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
   const [esUbicacionActual, setEsUbicacionActual] = useState(true);
@@ -67,6 +69,13 @@ const Inicio = () => {
       );
       setCalidadAire(datosCalidadAire);
 
+      // Obtener datos astronómicos
+      const datosAstro = await obtenerDatosAstronomicos(
+        ubicacionActual.coords.latitude,
+        ubicacionActual.coords.longitude
+      );
+      setDatosAstronomicos(datosAstro);
+
       setCargando(false);
     } catch (err) {
       console.error('Error:', err);
@@ -105,6 +114,13 @@ const Inicio = () => {
         );
         setCalidadAire(datosCalidadAire);
         
+        // Obtener datos astronómicos actualizados
+        const datosAstro = await obtenerDatosAstronomicos(
+          ubicacion.latitude,
+          ubicacion.longitude
+        );
+        setDatosAstronomicos(datosAstro);
+        
         // Asegurarnos de que seguimos en modo ciudad favorita
         setEsUbicacionActual(false);
       }
@@ -142,6 +158,12 @@ const Inicio = () => {
             route.params.ciudadSeleccionada.lon
           );
           setCalidadAire(datosCalidadAire);
+          
+          const datosAstro = await obtenerDatosAstronomicos(
+            route.params.ciudadSeleccionada.lat,
+            route.params.ciudadSeleccionada.lon
+          );
+          setDatosAstronomicos(datosAstro);
         } catch (err) {
           console.error('Error al obtener datos adicionales:', err);
         }
@@ -303,6 +325,10 @@ const Inicio = () => {
           <CalidadAire 
             calidadAire={calidadAire} 
             obtenerNivelCalidadAire={obtenerNivelCalidadAire} 
+          />
+          <SalidaPuestaSol 
+            datosAstronomicos={datosAstronomicos} 
+            esDeDia={datosClima.current.is_day === 1}
           />
         </View>
       </ScrollView>

@@ -254,6 +254,32 @@ export const obtenerCalidadAire = async (latitud, longitud) => {
   };
 };
 
+/**
+ * Obtiene datos astronómicos (amanecer, atardecer, etc.)
+ * @param {number} latitud - Latitud de la ubicación
+ * @param {number} longitud - Longitud de la ubicación
+ * @param {string} fecha - Fecha en formato YYYY-MM-DD (opcional, por defecto es hoy)
+ * @returns {Promise} Promesa con los datos astronómicos
+ */
+export const obtenerDatosAstronomicos = async (latitud, longitud, fecha = null) => {
+  try {
+    // Si no se proporciona fecha, usar la fecha actual
+    const fechaConsulta = fecha || new Date().toISOString().split('T')[0];
+    
+    const respuesta = await axios.get(`${WEATHER_API_BASE_URL}/astronomy.json`, {
+      params: {
+        key: WEATHER_API_KEY,
+        q: `${latitud},${longitud}`,
+        dt: fechaConsulta,
+        lang: 'es'
+      }
+    });
+    return respuesta.data;
+  } catch (error) {
+    console.error('Error al obtener datos astronómicos:', error);
+    throw error;
+  }
+};
 
 
 // Esta función ya está definida arriba usando WeatherAPI.com
