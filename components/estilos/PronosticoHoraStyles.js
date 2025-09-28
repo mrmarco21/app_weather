@@ -5,7 +5,9 @@ const PronosticoHoraStyles = StyleSheet.create({
     marginBottom: 16,
     borderRadius: 12,
     elevation: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    
+
   },
   forecastScroll: {
     marginTop: 10,
