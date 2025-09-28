@@ -51,7 +51,7 @@ const PronosticoHora = ({ pronostico }) => {
   return (
     <Card style={styles.detailCard}>
       <Card.Content>
-        <Title>Pronóstico por hora</Title>
+        <Title style={styles.forecastTitle}>Pronóstico por hora</Title>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.forecastScroll}>
           {horasPronostico.map((hora, index) => (
             <View key={index} style={styles.forecastItem}>

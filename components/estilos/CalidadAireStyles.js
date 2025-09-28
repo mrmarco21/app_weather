@@ -12,11 +12,18 @@ const CalidadAireStyles = StyleSheet.create({
     borderRadius: 8,
     marginTop: 10,
     alignItems: 'center',
+    
   },
   airQualityText: {
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  airQualityTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 15,
   },
 });
 
