@@ -23,93 +23,132 @@ const Inicio = () => {
   const [calidadAire, setCalidadAire] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
+  const [esUbicacionActual, setEsUbicacionActual] = useState(true);
+  const [actualizando, setActualizando] = useState(false);
 
-  useEffect(() => {
-    // Verificar si hay datos de ciudad seleccionada en los parámetros de navegación
-    console.log('Parámetros de navegación:', route.params);
-    
-    if (route.params?.ciudadSeleccionada && route.params?.datosClima) {
-      console.log('Usando datos de ciudad seleccionada');
-      // Usar los datos de la ciudad seleccionada desde favoritos
-      const { ciudadSeleccionada, datosClima } = route.params;
+  // Función para obtener la ubicación actual y sus datos climáticos
+  const obtenerUbicacionActual = async () => {
+    try {
+      setCargando(true);
+      setEsUbicacionActual(true);
       
-      console.log('Ciudad seleccionada:', ciudadSeleccionada);
-      console.log('Datos clima:', datosClima);
+      // Solicitar permisos de ubicación
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setError('Se requiere permiso para acceder a la ubicación');
+        setCargando(false);
+        return;
+      }
+
+      // Obtener ubicación actual
+      let ubicacionActual = await Location.getCurrentPositionAsync({});
+      setUbicacion(ubicacionActual.coords);
+
+      // Obtener datos del clima
+      const datosClimaActual = await obtenerClimaActual(
+        ubicacionActual.coords.latitude,
+        ubicacionActual.coords.longitude
+      );
+      setDatosClima(datosClimaActual);
+
+      // Obtener pronóstico
+      const datosPronostico = await obtenerPronostico(
+        ubicacionActual.coords.latitude,
+        ubicacionActual.coords.longitude
+      );
+      setPronostico(datosPronostico);
+
+      // Obtener calidad del aire
+      const datosCalidadAire = await obtenerCalidadAire(
+        ubicacionActual.coords.latitude,
+        ubicacionActual.coords.longitude
+      );
+      setCalidadAire(datosCalidadAire);
+
+      setCargando(false);
+    } catch (err) {
+      console.error('Error:', err);
+      setError('No se pudo obtener la información del clima');
+      setCargando(false);
+    }
+  };
+
+  // Función para actualizar los datos del clima según la ubicación actual
+  const actualizarDatosClima = async () => {
+    try {
+      setActualizando(true);
       
-      setDatosClima(datosClima);
-      setUbicacion({
-        latitude: ciudadSeleccionada.lat,
-        longitude: ciudadSeleccionada.lon
-      });
-      
-      // Obtener pronóstico para la ciudad seleccionada
-      (async () => {
-        try {
-          const datosPronostico = await obtenerPronostico(
-            ciudadSeleccionada.lat,
-            ciudadSeleccionada.lon
-          );
-          setPronostico(datosPronostico);
-          
-          // Obtener calidad del aire
-          const datosCalidadAire = await obtenerCalidadAire(
-            ciudadSeleccionada.lat,
-            ciudadSeleccionada.lon
-          );
-          setCalidadAire(datosCalidadAire);
-          
-          setCargando(false);
-        } catch (err) {
-          console.error('Error:', err);
-          setError('No se pudo obtener la información del clima');
-          setCargando(false);
-        }
-      })();
-    } else {
-      console.log('Usando ubicación actual');
-      // Usar la ubicación actual si no hay ciudad seleccionada
-      (async () => {
-        try {
-          // Solicitar permisos de ubicación
-          let { status } = await Location.requestForegroundPermissionsAsync();
-          if (status !== 'granted') {
-            setError('Se requiere permiso para acceder a la ubicación');
-            setCargando(false);
-            return;
-          }
+      if (esUbicacionActual) {
+        // Si estamos en la ubicación actual, obtenemos los datos nuevamente
+        await obtenerUbicacionActual();
+      } else if (ubicacion) {
+        // Si estamos viendo una ciudad favorita, actualizamos sus datos
+        const datosClimaActual = await obtenerClimaActual(
+          ubicacion.latitude,
+          ubicacion.longitude
+        );
+        setDatosClima(datosClimaActual);
 
-          // Obtener ubicación actual
-          let ubicacionActual = await Location.getCurrentPositionAsync({});
-          setUbicacion(ubicacionActual.coords);
-
-          // Obtener datos del clima
-          const datosClimaActual = await obtenerClimaActual(
-            ubicacionActual.coords.latitude,
-            ubicacionActual.coords.longitude
-          );
-          setDatosClima(datosClimaActual);
-
-          // Obtener pronóstico
-          const datosPronostico = await obtenerPronostico(
-            ubicacionActual.coords.latitude,
-            ubicacionActual.coords.longitude
+        // Obtener pronóstico actualizado
+        const datosPronostico = await obtenerPronostico(
+          ubicacion.latitude,
+          ubicacion.longitude
         );
         setPronostico(datosPronostico);
 
-        // Obtener calidad del aire
+        // Obtener calidad del aire actualizada
         const datosCalidadAire = await obtenerCalidadAire(
-          ubicacionActual.coords.latitude,
-          ubicacionActual.coords.longitude
+          ubicacion.latitude,
+          ubicacion.longitude
         );
         setCalidadAire(datosCalidadAire);
-
-        setCargando(false);
-      } catch (err) {
-        console.error('Error:', err);
-        setError('No se pudo obtener la información del clima');
-        setCargando(false);
       }
-    })();
+      
+      setActualizando(false);
+    } catch (err) {
+      console.error('Error al actualizar datos del clima:', err);
+      setError('No se pudo actualizar la información del clima');
+      setActualizando(false);
+    }
+  };
+
+  useEffect(() => {
+    // Verificar si hay una ciudad seleccionada desde Favoritos
+    if (route.params?.ciudadSeleccionada && route.params?.datosClima) {
+      setUbicacion({
+        latitude: route.params.ciudadSeleccionada.lat,
+        longitude: route.params.ciudadSeleccionada.lon
+      });
+      setDatosClima(route.params.datosClima);
+      setEsUbicacionActual(false);
+      setCargando(false);
+      
+      // Obtener pronóstico y calidad del aire para la ciudad seleccionada
+      const obtenerDatosAdicionales = async () => {
+        try {
+          const datosPronostico = await obtenerPronostico(
+            route.params.ciudadSeleccionada.lat,
+            route.params.ciudadSeleccionada.lon
+          );
+          setPronostico(datosPronostico);
+          
+          const datosCalidadAire = await obtenerCalidadAire(
+            route.params.ciudadSeleccionada.lat,
+            route.params.ciudadSeleccionada.lon
+          );
+          setCalidadAire(datosCalidadAire);
+        } catch (err) {
+          console.error('Error al obtener datos adicionales:', err);
+        }
+      };
+      
+      obtenerDatosAdicionales();
+    } else if (route.params?.resetToCurrentLocation) {
+      // Si se solicita volver a la ubicación actual
+      obtenerUbicacionActual();
+    } else {
+      // Obtener ubicación actual si no hay ciudad seleccionada
+      obtenerUbicacionActual();
     }
   }, [route.params]);
 
@@ -189,7 +228,10 @@ const Inicio = () => {
       <ClimaActual 
         location={datosClima.location} 
         current={datosClima.current} 
-        formatearFecha={formatearFecha} 
+        formatearFecha={formatearFecha}
+        mostrarBotonRegreso={!esUbicacionActual}
+        onActualizar={actualizarDatosClima}
+        actualizando={actualizando}
       />
 
       <View style={inicioStyles.detailsContainer}>
