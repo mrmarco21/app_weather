@@ -10,7 +10,7 @@ const CalidadAire = ({ calidadAire, obtenerNivelCalidadAire }) => {
   return (
     <Card style={styles.detailCard}>
       <Card.Content>
-        <Title>Calidad del Aire</Title>
+        <Title style={styles.airQualityTitle}>Calidad del Aire</Title>
         <View style={[styles.airQualityIndicator, { backgroundColor: infoCalidadAire.color }]}>
           <Text style={styles.airQualityText}>{infoCalidadAire.texto}</Text>
         </View>

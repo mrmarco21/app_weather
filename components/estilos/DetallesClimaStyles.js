@@ -19,6 +19,9 @@ const DetallesClimaStyles = StyleSheet.create({
   detailItemText: {
     color: '#fff',
   },
+  detailItemText: {
+    color: '#fff',
+  },
   
 });
 

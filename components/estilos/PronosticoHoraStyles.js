@@ -19,6 +19,7 @@ const PronosticoHoraStyles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 5,
+    color: '#fff',
   },
   forecastIcon: {
     width: 50,
@@ -26,11 +27,19 @@ const PronosticoHoraStyles = StyleSheet.create({
   },
   forecastTemp: {
     fontSize: 14,
+    color: '#fff',
   },
   precipProb: {
     fontSize: 12,
     color: '#0099ff',
   },
+  forecastTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 15,
+  },
+  
 });
 
 export default PronosticoHoraStyles;
