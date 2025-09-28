@@ -104,6 +104,9 @@ const Inicio = () => {
           ubicacion.longitude
         );
         setCalidadAire(datosCalidadAire);
+        
+        // Asegurarnos de que seguimos en modo ciudad favorita
+        setEsUbicacionActual(false);
       }
       
       setActualizando(false);
@@ -285,6 +288,9 @@ const Inicio = () => {
           location={datosClima.location} 
           current={datosClima.current} 
           formatearFecha={formatearFecha}
+          mostrarBotonRegreso={!esUbicacionActual}
+          onActualizar={actualizarDatosClima}
+          actualizando={actualizando}
         />
 
         <View style={inicioStyles.detailsContainer}>
