@@ -16,6 +16,10 @@ const DetallesClimaStyles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
+  detailItemText: {
+    color: '#fff',
+  },
+  
 });
 
 export default DetallesClimaStyles;

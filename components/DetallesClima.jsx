@@ -10,25 +10,25 @@ const DetallesClima = ({ current }) => {
       <Card.Content>
         <View style={styles.detailRow}>
           <View style={styles.detailItem}>
-            <Ionicons name="thermometer-outline" size={24} color="#0099ff" />
-            <Title>Sensación</Title>
+            <Ionicons name="thermometer-outline" size={24} color="#fff" />
+            <Title style={styles.detailItemText}>Sensación</Title>
             <Paragraph>{Math.round(current.feelslike_c)}°C</Paragraph>
           </View>
           <View style={styles.detailItem}>
-            <Ionicons name="water-outline" size={24} color="#0099ff" />
-            <Title>Humedad</Title>
+            <Ionicons name="water-outline" size={24} color="#fff" />
+            <Title style={styles.detailItemText}>Humedad</Title>
             <Paragraph>{current.humidity}%</Paragraph>
           </View>
         </View>
         <View style={styles.detailRow}>
           <View style={styles.detailItem}>
-            <Ionicons name="speedometer-outline" size={24} color="#0099ff" />
-            <Title>Viento</Title>
+            <Ionicons name="speedometer-outline" size={24} color="#fff" />
+            <Title style={styles.detailItemText}>Viento</Title>
             <Paragraph>{current.wind_kph} km/h</Paragraph>
           </View>
           <View style={styles.detailItem}>
-            <Ionicons name="eye-outline" size={24} color="#0099ff" />
-            <Title>Visibilidad</Title>
+            <Ionicons name="eye-outline" size={24} color="#fff" />
+            <Title style={styles.detailItemText}>Visibilidad</Title>
             <Paragraph>{current.vis_km} km</Paragraph>
           </View>
         </View>
