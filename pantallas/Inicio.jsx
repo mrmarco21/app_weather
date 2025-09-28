@@ -136,7 +136,7 @@ const Inicio = () => {
         break;
       case 1003: // Parcialmente nublado
         urlImagen = esDeDia
-          ? 'https://res.cloudinary.com/dp1dzunfp/image/upload/v1759090523/parcialmente_nubao_o6oi4s.jpg' // Cielo con nubes día
+          ? 'https://images.unsplash.com/photo-1701051232710-3d45e949cee4?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' // Cielo con nubes día
           : 'https://res.cloudinary.com/dp1dzunfp/imagen/cargar/​v1759090445/Cielo_nocturno_nublado_ylgyoo.jpg'; // Cielo nocturno nublado
         break;
       case 1006: // Nublado
@@ -149,7 +149,7 @@ const Inicio = () => {
         urlImagen = 'https://res.cloudinary.com/dp1dzunfp/image/upload/v1759091073/niebla_alklz0.jpg'; // Niebla
         break;
       case 1063: // Lluvia ligera
-        urlImagen = 'https://res.cloudinary.com/dp1dzunfp/image/upload/v1759091155/lluvialijera_jsikk5.jpg'; // Lluvia
+        urlImagen = 'https://res.cloudinary.com/dp1dzunfp/image/upload/v1759094730/lluvia_lejera2_r5yvli.jpg'; // Lluvia
         break;
       case 1087: // Lluvia intensa
         urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Lluvia intensa
