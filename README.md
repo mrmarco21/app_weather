@@ -1,50 +1,64 @@
-# Welcome to your Expo app 👋
+# Aplicación de Clima ☀️🌧️
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Aplicación móvil para consultar el clima actual y pronóstico de diferentes ciudades, desarrollada con React Native y Expo.
 
-## Get started
+## Características
 
-1. Install dependencies
+- Consulta del clima actual de cualquier ciudad
+- Pronóstico por horas y días
+- Información detallada de temperatura, humedad, viento y más
+- Calidad del aire
+- Guardado de ciudades favoritas
+- Interfaz intuitiva y moderna
+
+## Instalación
+
+1. Clona este repositorio
+
+   ```bash
+   git clone https://github.com/mrmarco21/app_weather.git
+   cd proyectoClima
+   ```
+
+2. Instala las dependencias
 
    ```bash
    npm install
    ```
 
-2. Start the app
+3. Inicia la aplicación
 
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+## Requisitos
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- Node.js 16 o superior
+- Expo CLI
+- Cuenta en OpenWeatherMap para API key (o usar la proporcionada para desarrollo)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Estructura del proyecto
 
-## Get a fresh project
+- `/components`: Componentes reutilizables de la aplicación
+- `/pantallas`: Pantallas principales (Inicio, Búsqueda, Favoritos)
+- `/servicios`: Servicios para consumo de APIs
+- `/estilos`: Estilos de la aplicación
+- `/assets`: Recursos gráficos
 
-When you're ready, run:
+## Colaboradores
 
-```bash
-npm run reset-project
-```
+Este proyecto es privado y solo los colaboradores autorizados tienen acceso al repositorio.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Tecnologías utilizadas
 
-## Learn more
+- React Native
+- Expo
+- React Navigation
+- Axios
+- AsyncStorage
+- Expo Location
 
-To learn more about developing your project with Expo, look at the following resources:
+## Licencia
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Este proyecto es de uso privado y no está disponible para distribución pública.
