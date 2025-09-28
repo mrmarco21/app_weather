@@ -12,7 +12,6 @@ import { View, Platform } from 'react-native';
 import Inicio from './pantallas/Inicio';
 import Busqueda from './pantallas/Busqueda';
 import Favoritos from './pantallas/Favoritos';
-
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 

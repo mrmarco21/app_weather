@@ -3,20 +3,28 @@ import { StyleSheet } from 'react-native';
 const busquedaStyles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: '#f5f5f5',
+  },
+  contentContainer: {
+    flex: 1,
+    padding: 20,
+    paddingTop: 10,
   },
   searchBar: {
     marginBottom: 16,
     borderRadius: 10,
   },
   resultadoItem: {
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
-    backgroundColor: '#fff',
-    marginBottom: 8,
-    borderRadius: 8,
+    padding: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    marginBottom: 12,
+    borderRadius: 16,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
   },
   nombreCiudad: {
     fontSize: 18,
@@ -32,7 +40,10 @@ const busquedaStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: 40,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 20,
+    margin: 20,
   },
   loadingText: {
     marginTop: 10,
@@ -50,8 +61,16 @@ const busquedaStyles = StyleSheet.create({
   },
   climaContainer: {
     marginTop: 20,
-    padding: 16,
-    borderRadius: 12,
+    padding: 20,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    elevation: 6,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.25,
+    shadowRadius: 5,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
   },
   ciudadSeleccionada: {
     fontSize: 24,
@@ -100,10 +119,11 @@ const busquedaStyles = StyleSheet.create({
     color: '#666',
   },
   mensajeVacio: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: 18,
+    color: '#555',
     textAlign: 'center',
     marginTop: 20,
+    fontWeight: '500',
   },
 });
 

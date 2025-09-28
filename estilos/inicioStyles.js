@@ -3,6 +3,9 @@ import { StyleSheet } from 'react-native';
 const inicioStyles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  scrollContainer: {
+    flex: 1,
     padding: 16,
   },
   centeredContainer: {
@@ -72,8 +75,12 @@ const inicioStyles = StyleSheet.create({
   detailCard: {
     marginBottom: 16,
     borderRadius: 12,
-    elevation: 1,
-    backgroundColor: '#3d669f',
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    backgroundColor: 'rgba(0, 153, 255, 0.9)',
   },
   detailRow: {
     flexDirection: 'row',
@@ -89,6 +96,7 @@ const inicioStyles = StyleSheet.create({
     borderRadius: 8,
     marginTop: 10,
     alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
   airQualityText: {
     color: '#fff',

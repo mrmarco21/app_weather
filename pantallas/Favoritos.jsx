@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, Alert, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { obtenerClimaActual, obtenerPronostico } from '../servicios/climaApi';
-import styles from '../estilos/favoritosStyles';
-import TarjetaFavorito from '../components/TarjetaFavorito';
-import EncabezadoFavoritos from '../components/EncabezadoFavoritos';
-import EstadoFavoritos from '../components/EstadoFavoritos';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { Alert, FlatList, ImageBackground, ScrollView, View } from 'react-native';
 import ClimaActual from '../components/ClimaActual';
 import DetallesClima from '../components/DetallesClima';
+import EncabezadoFavoritos from '../components/EncabezadoFavoritos';
+import EstadoFavoritos from '../components/EstadoFavoritos';
 import Pronostico from '../components/Pronostico';
-import { useNavigation } from '@react-navigation/native';
+import TarjetaFavorito from '../components/TarjetaFavorito';
+import styles from '../estilos/favoritosStyles';
+import { obtenerPronostico } from '../servicios/climaApi';
 
 const Favoritos = () => {
   const [favoritos, setFavoritos] = useState([]);
@@ -102,11 +102,17 @@ const Favoritos = () => {
   // Función para eliminar un favorito
   const eliminarFavorito = async (id) => {
     try {
+      console.log('eliminarFavorito llamada con ID:', id);
+      console.log('Favoritos actuales:', favoritos.length);
+      
       const nuevosFavoritos = favoritos.filter(fav => fav.id !== id);
+      console.log('Nuevos favoritos después de filtrar:', nuevosFavoritos.length);
+      
       setFavoritos(nuevosFavoritos);
       
       // Guardar en AsyncStorage
       await AsyncStorage.setItem('favoritos', JSON.stringify(nuevosFavoritos));
+      console.log('Favoritos guardados en AsyncStorage');
       
       Alert.alert('Éxito', 'Ciudad eliminada de favoritos');
     } catch (error) {
@@ -117,12 +123,16 @@ const Favoritos = () => {
 
   // Confirmar eliminación
   const confirmarEliminacion = (id, nombre) => {
+    console.log('confirmarEliminacion llamada con:', { id, nombre });
     Alert.alert(
       'Eliminar favorito',
       `¿Estás seguro de que deseas eliminar ${nombre} de tus favoritos?`,
       [
         { text: 'Cancelar', style: 'cancel' },
-        { text: 'Eliminar', onPress: () => eliminarFavorito(id), style: 'destructive' }
+        { text: 'Eliminar', onPress: () => {
+          console.log('Usuario confirmó eliminación para ID:', id);
+          eliminarFavorito(id);
+        }, style: 'destructive' }
       ]
     );
   };
@@ -145,6 +155,67 @@ const Favoritos = () => {
       hour: '2-digit',
       minute: '2-digit'
     });
+  };
+
+  // Función para obtener la URL de imagen de fondo según el clima de la primera ciudad favorita
+  const obtenerImagenFondo = () => {
+    if (!favoritos || favoritos.length === 0) {
+      // URL por defecto - cielo azul
+      return { uri: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center' };
+    }
+
+    // Usar el clima de la primera ciudad favorita para determinar el fondo
+    const primerFavorito = favoritos[0];
+    if (!primerFavorito.ultimoClima || !primerFavorito.ultimoClima.current) {
+      return { uri: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center' };
+    }
+
+    const codigoCondicion = primerFavorito.ultimoClima.current.condition.code;
+    const esDeDia = primerFavorito.ultimoClima.current.is_day === 1;
+    
+    // URLs específicas para cada condición climática
+    let urlImagen;
+    
+    switch (codigoCondicion) {
+      case 1000: // Soleado/Clear
+        urlImagen = esDeDia 
+          ? 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center' // Cielo soleado
+          : 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1080&h=1920&fit=crop&crop=center'; // Cielo nocturno estrellado
+        break;
+      case 1003: // Parcialmente nublado
+        urlImagen = esDeDia
+          ? 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center' // Cielo con nubes
+          : 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Cielo nocturno nublado
+        break;
+      case 1006: // Nublado
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Cielo nublado
+        break;
+      case 1009: // Muy nublado
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Cielo muy nublado
+        break;
+      case 1030: // Niebla
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Niebla
+        break;
+      case 1063: // Lluvia ligera
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Lluvia
+        break;
+      case 1087: // Lluvia intensa
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Lluvia intensa
+        break;
+      case 1114: // Nieve ligera
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Nieve
+        break;
+      case 1219: // Nieve intensa
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Tormenta de nieve
+        break;
+      case 1273: // Tormenta eléctrica
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Tormenta
+        break;
+      default:
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Por defecto
+    }
+
+    return { uri: urlImagen };
   };
 
   // Manejar la selección de ciudad
@@ -174,49 +245,55 @@ const Favoritos = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <EncabezadoFavoritos 
-        favoritos={favoritos}
-        actualizarTodosFavoritos={actualizarTodosFavoritos}
-        actualizando={actualizando}
-      />
-
-      {ciudadSeleccionada && (
-        <ScrollView style={styles.climaSeleccionadoContainer}>
-          <ClimaActual 
-            location={{
-              name: ciudadSeleccionada.ciudad.name,
-              country: ciudadSeleccionada.ciudad.country,
-              localtime: ciudadSeleccionada.fechaGuardado
-            }}
-            current={ciudadSeleccionada.ultimoClima.current}
-            formatearFecha={formatearFecha}
-          />
-          <DetallesClima 
-            current={ciudadSeleccionada.ultimoClima.current}
-          />
-          {ciudadSeleccionada.ultimoClima.forecast && (
-            <Pronostico 
-              pronostico={ciudadSeleccionada.ultimoClima.forecast.forecastday}
-            />
-          )}
-        </ScrollView>
-      )}
-
-      <EstadoFavoritos 
-        cargando={cargando}
-        favoritos={favoritos}
-      />
-
-      {!cargando && favoritos.length > 0 && (
-        <FlatList
-          data={favoritos}
-          renderItem={renderFavorito}
-          keyExtractor={item => item.id}
-          contentContainerStyle={styles.listContainer}
+    <ImageBackground 
+      source={obtenerImagenFondo()}
+      style={styles.container}
+      resizeMode="cover"
+    >
+      <View style={styles.contentContainer}>
+        <EncabezadoFavoritos 
+          favoritos={favoritos}
+          actualizarTodosFavoritos={actualizarTodosFavoritos}
+          actualizando={actualizando}
         />
-      )}
-    </View>
+
+        {ciudadSeleccionada && (
+          <ScrollView style={styles.climaSeleccionadoContainer}>
+            <ClimaActual 
+              location={{
+                name: ciudadSeleccionada.ciudad.name,
+                country: ciudadSeleccionada.ciudad.country,
+                localtime: ciudadSeleccionada.fechaGuardado
+              }}
+              current={ciudadSeleccionada.ultimoClima.current}
+              formatearFecha={formatearFecha}
+            />
+            <DetallesClima 
+              current={ciudadSeleccionada.ultimoClima.current}
+            />
+            {ciudadSeleccionada.ultimoClima.forecast && (
+              <Pronostico 
+                pronostico={ciudadSeleccionada.ultimoClima.forecast.forecastday}
+              />
+            )}
+          </ScrollView>
+        )}
+
+        <EstadoFavoritos 
+          cargando={cargando}
+          favoritos={favoritos}
+        />
+
+        {!cargando && favoritos.length > 0 && (
+          <FlatList
+            data={favoritos}
+            renderItem={renderFavorito}
+            keyExtractor={item => item.id}
+            contentContainerStyle={styles.listContainer}
+          />
+        )}
+      </View>
+    </ImageBackground>
   );
 };
 

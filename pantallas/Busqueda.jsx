@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { buscarCiudad, obtenerClimaActual } from '../servicios/climaApi';
-import styles from '../estilos/busquedaStyles';
+import React, { useState } from 'react';
+import { ImageBackground, Text, TouchableOpacity, View } from 'react-native';
 import BuscadorCiudad from '../components/BuscadorCiudad';
-import ResultadoBusqueda from '../components/ResultadoBusqueda';
 import DetalleClimaSeleccionado from '../components/DetalleClimaSeleccionado';
 import EstadoBusqueda from '../components/EstadoBusqueda';
+import ResultadoBusqueda from '../components/ResultadoBusqueda';
+import styles from '../estilos/busquedaStyles';
+import { buscarCiudad, obtenerClimaActual } from '../servicios/climaApi';
 
 const Busqueda = ({ navigation }) => {
   const [consulta, setConsulta] = useState('');
@@ -88,6 +88,62 @@ const Busqueda = ({ navigation }) => {
     }
   };
 
+  // Función para obtener la URL de imagen de fondo
+  const obtenerImagenFondo = () => {
+    if (datosClima && datosClima.current) {
+      // Si hay datos de clima, usar el código de condición
+      const codigoCondicion = datosClima.current.condition.code;
+      const esDeDia = datosClima.current.is_day === 1;
+      
+      // URLs específicas para cada condición climática
+      let urlImagen;
+      
+      switch (codigoCondicion) {
+        case 1000: // Soleado/Clear
+          urlImagen = esDeDia 
+            ? 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center' // Cielo soleado
+            : 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1080&h=1920&fit=crop&crop=center'; // Cielo nocturno estrellado
+          break;
+        case 1003: // Parcialmente nublado
+          urlImagen = esDeDia
+            ? 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center' // Cielo con nubes
+            : 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1080&h=1920&fit=crop&crop=center'; // Cielo nocturno nublado
+          break;
+        case 1006: // Nublado
+          urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Cielo nublado
+          break;
+        case 1009: // Muy nublado
+          urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Cielo muy nublado
+          break;
+        case 1030: // Niebla
+          urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Niebla
+          break;
+        case 1063: // Lluvia ligera
+          urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Lluvia
+          break;
+        case 1087: // Lluvia intensa
+          urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Lluvia intensa
+          break;
+        case 1114: // Nieve ligera
+          urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Nieve
+          break;
+        case 1219: // Nieve intensa
+          urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Tormenta de nieve
+          break;
+        case 1273: // Tormenta eléctrica
+          urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Tormenta
+          break;
+        default:
+          urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Por defecto
+      }
+
+      return { uri: urlImagen };
+    } else {
+      // URL por defecto - cielo azul para búsqueda
+      return { uri: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center' };
+    }
+  };
+
   // Renderizar cada resultado de búsqueda
   const renderItemBusqueda = ({ item }) => (
     <TouchableOpacity 
@@ -100,34 +156,40 @@ const Busqueda = ({ navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
-      <BuscadorCiudad 
-        consulta={consulta} 
-        setConsulta={setConsulta} 
-        onBuscar={buscarCiudades} 
-      />
+    <ImageBackground 
+      source={obtenerImagenFondo()} 
+      style={styles.container}
+      resizeMode="cover"
+    >
+      <View style={styles.contentContainer}>
+        <BuscadorCiudad 
+          consulta={consulta} 
+          setConsulta={setConsulta} 
+          onBuscar={buscarCiudades} 
+        />
 
-      {!cargando && !ciudadSeleccionada && resultados.length > 0 && (
-        <ResultadoBusqueda 
+        {!cargando && !ciudadSeleccionada && resultados.length > 0 && (
+          <ResultadoBusqueda 
+            resultados={resultados} 
+            onSeleccionarCiudad={seleccionarCiudad} 
+          />
+        )}
+
+        {!cargando && ciudadSeleccionada && datosClima && (
+          <DetalleClimaSeleccionado 
+            ciudadSeleccionada={ciudadSeleccionada} 
+            datosClima={datosClima} 
+          />
+        )}
+
+        <EstadoBusqueda 
+          cargando={cargando} 
+          error={error} 
+          consulta={consulta} 
           resultados={resultados} 
-          onSeleccionarCiudad={seleccionarCiudad} 
         />
-      )}
-
-      {!cargando && ciudadSeleccionada && datosClima && (
-        <DetalleClimaSeleccionado 
-          ciudadSeleccionada={ciudadSeleccionada} 
-          datosClima={datosClima} 
-        />
-      )}
-
-      <EstadoBusqueda 
-        cargando={cargando} 
-        error={error} 
-        consulta={consulta} 
-        resultados={resultados} 
-      />
-    </View>
+      </View>
+    </ImageBackground>
   );
 };
 

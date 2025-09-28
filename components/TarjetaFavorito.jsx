@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { Card, Title, Paragraph, Button } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { Button, Card, Paragraph, Title } from 'react-native-paper';
+import { mapearCiudadAZonaHoraria, obtenerHoraExacta } from '../servicios/climaApi';
 import styles from './estilos/TarjetaFavoritoStyles';
-import { obtenerHoraExacta, mapearCiudadAZonaHoraria } from '../servicios/climaApi';
 
 const TarjetaFavorito = ({ favorito, index, formatearFecha, actualizarClima, confirmarEliminacion, onCiudadSeleccionada }) => {
   const { ciudad, ultimoClima, fechaGuardado, id } = favorito;
@@ -113,9 +113,22 @@ const TarjetaFavorito = ({ favorito, index, formatearFecha, actualizarClima, con
     }
   };
 
+  const handleEliminar = () => {
+    console.log('=== FUNCIÓN handleEliminar EJECUTADA ===');
+    console.log('Ciudad:', ciudad.name);
+    console.log('ID:', id);
+    console.log('confirmarEliminacion disponible:', !!confirmarEliminacion);
+    
+    if (confirmarEliminacion) {
+      confirmarEliminacion(id, ciudad.name);
+    } else {
+      console.error('ERROR: confirmarEliminacion no está disponible');
+    }
+  };
+
   return (
-    <TouchableOpacity onPress={handlePress} activeOpacity={0.9}>
-      <Card style={[styles.favoritoCard, expandido && styles.favoritoCardExpandido]}>
+    <Card style={[styles.favoritoCard, expandido && styles.favoritoCardExpandido]}>
+      <TouchableOpacity onPress={handlePress} activeOpacity={0.9}>
         <Card.Content>
           <View style={styles.cardHeader}>
             <View>
@@ -196,8 +209,10 @@ const TarjetaFavorito = ({ favorito, index, formatearFecha, actualizarClima, con
               Actualizado: {formatearFecha(fechaGuardado)}
             </Text>
           </View>
+        </Card.Content>
+      </TouchableOpacity>
 
-          <View style={styles.botonesContainer}>
+      <View style={styles.botonesContainer}>
             <Button
               mode="contained"
               onPress={() => handleSeleccionarCiudad()}
@@ -212,17 +227,15 @@ const TarjetaFavorito = ({ favorito, index, formatearFecha, actualizarClima, con
             >
               Actualizar
             </Button>
-            <Button
-              mode="outlined"
-              onPress={() => confirmarEliminacion(id, ciudad.name)}
-              style={styles.botonEliminar}
+            <TouchableOpacity
+              onPress={handleEliminar}
+              style={styles.botonEliminarTouchable}
+              activeOpacity={0.7}
             >
-              Eliminar
-            </Button>
-          </View>
-        </Card.Content>
-      </Card>
-    </TouchableOpacity>
+              <Text style={styles.botonEliminarText}>Eliminar</Text>
+            </TouchableOpacity>
+      </View>
+    </Card>
   );
 };
 

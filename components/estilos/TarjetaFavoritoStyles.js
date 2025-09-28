@@ -5,7 +5,7 @@ const TarjetaFavoritoStyles = StyleSheet.create({
     marginBottom: 16,
     borderRadius: 12,
     elevation: 2,
-    backgroundColor: '#fff',
+    // backgroundColor: 'transparent',
   },
   favoritoCardExpandido: {
     elevation: 4,
@@ -22,7 +22,7 @@ const TarjetaFavoritoStyles = StyleSheet.create({
     fontWeight: 'bold',
   },
   tempContainer: {
-    backgroundColor: '#3d669f',
+    backgroundColor: '#0099ff',
     borderRadius: 8,
     padding: 8,
     alignItems: 'center',
@@ -88,7 +88,11 @@ const TarjetaFavoritoStyles = StyleSheet.create({
   botonesContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 5,
+    padding: 16,
+    paddingTop: 8,
+    backgroundColor: 'rgba(248, 249, 250, 0.9)',
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(0, 0, 0, 0.05)',
   },
   botonVerClima: {
     marginRight: 8,
@@ -101,7 +105,24 @@ const TarjetaFavoritoStyles = StyleSheet.create({
   botonEliminar: {
     flex: 1,
     marginLeft: 5,
-    borderColor: '#FF6B6B',
+    color: 'red',
+  },
+  botonEliminarTouchable: {
+    flex: 1,
+    marginLeft: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#f44336',
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  botonEliminarText: {
+    color: '#f44336',
+    fontSize: 14,
+    fontWeight: '500',
   },
 });
 

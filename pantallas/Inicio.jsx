@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, ActivityIndicator, StyleSheet } from 'react-native';
-import * as Location from 'expo-location';
 import { Ionicons } from '@expo/vector-icons';
-import { obtenerClimaActual, obtenerPronostico, obtenerCalidadAire } from '../servicios/climaApi';
 import { useRoute } from '@react-navigation/native';
+import * as Location from 'expo-location';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, ImageBackground, ScrollView, Text, View } from 'react-native';
+import { obtenerCalidadAire, obtenerClimaActual, obtenerPronostico } from '../servicios/climaApi';
 
 // Importar componentes
+import CalidadAire from '../components/CalidadAire';
 import ClimaActual from '../components/ClimaActual';
 import DetallesClima from '../components/DetallesClima';
-import CalidadAire from '../components/CalidadAire';
 import Pronostico from '../components/Pronostico';
 import PronosticoHora from '../components/PronosticoHora';
 
 // Importar estilos
 import inicioStyles from '../estilos/inicioStyles';
+
+// No necesitamos importar imágenes locales, usaremos URLs dinámicas
 
 const Inicio = () => {
   const route = useRoute();
@@ -113,28 +115,59 @@ const Inicio = () => {
     }
   }, [route.params]);
 
-  // Función para obtener el color de fondo según el clima
-  const obtenerColorFondo = () => {
-    if (!datosClima) return ['#4c669f', '#3b5998', '#192f6a']; // Azul por defecto
-
-    const condicion = datosClima.current.condition.text.toLowerCase();
-    const esDeDia = datosClima.current.is_day === 1;
-
-    if (condicion.includes('clear') || condicion.includes('sunny')) {
-      return esDeDia ? ['#56CCF2', '#2F80ED', '#1E3B70'] : ['#0F2027', '#203A43', '#2C5364'];
-    } else if (condicion.includes('cloud') || condicion.includes('overcast')) {
-      return esDeDia ? ['#E0EAFC', '#CFDEF3', '#A1C4FD'] : ['#3E5151', '#DECBA4', '#606c88'];
-    } else if (condicion.includes('rain') || condicion.includes('drizzle')) {
-      return ['#3E5151', '#DECBA4', '#000046'];
-    } else if (condicion.includes('thunder')) {
-      return ['#0F2027', '#203A43', '#2C5364'];
-    } else if (condicion.includes('snow')) {
-      return ['#E0EAFC', '#CFDEF3', '#A1C4FD'];
-    } else if (condicion.includes('mist') || condicion.includes('fog')) {
-      return ['#606c88', '#3f4c6b', '#606c88'];
-    } else {
-      return ['#4c669f', '#3b5998', '#192f6a'];
+  // Función para obtener la URL de imagen de fondo según el código de condición de la API
+  const obtenerImagenFondo = () => {
+    if (!datosClima) {
+      // URL por defecto - cielo azul
+      return { uri: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center' };
     }
+
+    const codigoCondicion = datosClima.current.condition.code;
+    const esDeDia = datosClima.current.is_day === 1;
+    
+    // URLs específicas para cada condición climática
+    let urlImagen;
+    
+    switch (codigoCondicion) {
+      case 1000: // Soleado/Clear
+        urlImagen = esDeDia 
+          ? 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center' // Cielo soleado
+          : 'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1080&h=1920&fit=crop&crop=center'; // Cielo nocturno estrellado
+        break;
+      case 1003: // Parcialmente nublado
+        urlImagen = esDeDia
+          ? 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center' // Cielo con nubes
+          : 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Cielo nocturno nublado
+        break;
+      case 1006: // Nublado
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Cielo nublado
+        break;
+      case 1009: // Muy nublado
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Cielo muy nublado
+        break;
+      case 1030: // Niebla
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Niebla
+        break;
+      case 1063: // Lluvia ligera
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Lluvia
+        break;
+      case 1087: // Lluvia intensa
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Lluvia intensa
+        break;
+      case 1114: // Nieve ligera
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Nieve
+        break;
+      case 1219: // Nieve intensa
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Tormenta de nieve
+        break;
+      case 1273: // Tormenta eléctrica
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Tormenta
+        break;
+      default:
+        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Por defecto
+    }
+
+    return { uri: urlImagen };
   };
 
   // Función para formatear la fecha
@@ -160,51 +193,75 @@ const Inicio = () => {
 
   if (cargando) {
     return (
-      <View style={inicioStyles.centeredContainer}>
-        <ActivityIndicator size="large" color="#0099ff" />
-        <Text style={inicioStyles.loadingText}>Obteniendo datos del clima...</Text>
-      </View>
+      <ImageBackground 
+        source={obtenerImagenFondo()}
+        style={inicioStyles.container}
+        resizeMode="cover"
+      >
+        <View style={inicioStyles.centeredContainer}>
+          <ActivityIndicator size="large" color="#0099ff" />
+          <Text style={inicioStyles.loadingText}>Obteniendo datos del clima...</Text>
+        </View>
+      </ImageBackground>
     );
   }
 
   if (error) {
     return (
-      <View style={inicioStyles.centeredContainer}>
-        <Ionicons name="alert-circle-outline" size={50} color="#FF6B6B" />
-        <Text style={inicioStyles.errorText}>{error}</Text>
-      </View>
+      <ImageBackground 
+        source={obtenerImagenFondo()}
+        style={inicioStyles.container}
+        resizeMode="cover"
+      >
+        <View style={inicioStyles.centeredContainer}>
+          <Ionicons name="alert-circle-outline" size={50} color="#FF6B6B" />
+          <Text style={inicioStyles.errorText}>{error}</Text>
+        </View>
+      </ImageBackground>
     );
   }
 
   if (!datosClima) {
     return (
-      <View style={inicioStyles.centeredContainer}>
-        <Text>No hay datos disponibles</Text>
-      </View>
+      <ImageBackground 
+        source={obtenerImagenFondo()}
+        style={inicioStyles.container}
+        resizeMode="cover"
+      >
+        <View style={inicioStyles.centeredContainer}>
+          <Text>No hay datos disponibles</Text>
+        </View>
+      </ImageBackground>
     );
   }
 
   return (
-    <ScrollView style={[inicioStyles.container, { backgroundColor: obtenerColorFondo()[0] }]}>
-      <ClimaActual 
-        location={datosClima.location} 
-        current={datosClima.current} 
-        formatearFecha={formatearFecha} 
-      />
-
-      <View style={inicioStyles.detailsContainer}>
-        <DetallesClima current={datosClima.current} />
-        
-        <PronosticoHora pronostico={pronostico} />
-        
-        <Pronostico pronostico={pronostico} />
-        
-        <CalidadAire 
-          calidadAire={calidadAire} 
-          obtenerNivelCalidadAire={obtenerNivelCalidadAire} 
+    <ImageBackground 
+      source={obtenerImagenFondo()}
+      style={inicioStyles.container}
+      resizeMode="cover"
+    >
+      <ScrollView style={inicioStyles.scrollContainer}>
+        <ClimaActual 
+          location={datosClima.location} 
+          current={datosClima.current} 
+          formatearFecha={formatearFecha} 
         />
-      </View>
-    </ScrollView>
+
+        <View style={inicioStyles.detailsContainer}>
+          <DetallesClima current={datosClima.current} />
+          
+          <PronosticoHora pronostico={pronostico} />
+          
+          <Pronostico pronostico={pronostico} />
+          
+          <CalidadAire 
+            calidadAire={calidadAire} 
+            obtenerNivelCalidadAire={obtenerNivelCalidadAire} 
+          />
+        </View>
+      </ScrollView>
+    </ImageBackground>
   );
 };
 

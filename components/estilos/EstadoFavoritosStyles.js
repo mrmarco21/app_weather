@@ -6,6 +6,7 @@ const EstadoFavoritosStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    
   },
   loadingText: {
     marginTop: 10,
