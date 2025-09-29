@@ -72,8 +72,8 @@ const Busqueda = ({ navigation }) => {
       const yaExiste = favoritos.some(fav => fav.ciudad.lat === ciudad.lat && fav.ciudad.lon === ciudad.lon);
       
       if (!yaExiste) {
-        // Agregar a favoritos
-        favoritos.push({
+        // Agregar a favoritos al principio de la lista
+        favoritos.unshift({
           id: Date.now().toString(),
           ciudad: ciudad,
           ultimoClima: clima,
