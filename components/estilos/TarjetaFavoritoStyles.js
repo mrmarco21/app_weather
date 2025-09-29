@@ -5,11 +5,11 @@ const TarjetaFavoritoStyles = StyleSheet.create({
     marginBottom: 16,
     borderRadius: 12,
     elevation: 2,
-    // backgroundColor: 'transparent',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
   },
   favoritoCardExpandido: {
     elevation: 4,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
   },
   cardHeader: {
     flexDirection: 'row',
@@ -20,12 +20,14 @@ const TarjetaFavoritoStyles = StyleSheet.create({
   cardTitle: {
     fontSize: 10,
     fontWeight: 'bold',
+    color: '#fff',
   },
   tempContainer: {
-    backgroundColor: '#0099ff',
+    // backgroundColor: 'rgba(0, 0, 0, 0.5)',
     borderRadius: 8,
     padding: 8,
     alignItems: 'center',
+    
   },
   tempText: {
     fontSize: 18,
@@ -39,22 +41,31 @@ const TarjetaFavoritoStyles = StyleSheet.create({
   },
   climaInfo: {
     marginTop: 10,
+    
   },
   climaInfoExpandido: {
     marginTop: 15,
     paddingTop: 10,
     borderTopWidth: 1,
     borderTopColor: '#eaeaea',
+    
+    
   },
   infoRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 10,
+    
   },
   infoItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
+    gap: 10,
+    color: '#fff',
+    
+  },
+  infoItemText: {
+    color: '#fff',
   },
   cardActions: {
     justifyContent: 'space-between',
@@ -66,7 +77,7 @@ const TarjetaFavoritoStyles = StyleSheet.create({
   },
   descripcionText: {
     fontSize: 16,
-    color: '#555',
+    color: '#fff',
     fontWeight: '500',
   },
   actualizadoContainer: {
@@ -78,11 +89,11 @@ const TarjetaFavoritoStyles = StyleSheet.create({
   },
   actualizadoText: {
     fontSize: 12,
-    color: '#666',
+    color: '#fff',
   },
   fechaText: {
     fontSize: 12,
-    color: '#666',
+    color: '#fff',
     marginTop: 4,
   },
   botonesContainer: {
@@ -90,37 +101,39 @@ const TarjetaFavoritoStyles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 16,
     paddingTop: 8,
-    backgroundColor: 'rgba(248, 249, 250, 0.9)',
+    // backgroundColor: 'rgba(0, 0, 0, 0.5)',
     borderTopWidth: 1,
     borderTopColor: 'rgba(0, 0, 0, 0.05)',
   },
   botonVerClima: {
     marginRight: 8,
-    backgroundColor: '#2196F3',
+    backgroundColor: 'green',
   },
   botonActualizar: {
     flex: 1,
     marginRight: 5,
+    backgroundColor: 'blue',
   },
   botonEliminar: {
     flex: 1,
     marginLeft: 5,
-    color: 'red',
+    color: '#fff',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   botonEliminarTouchable: {
     flex: 1,
     marginLeft: 5,
     paddingVertical: 8,
     paddingHorizontal: 12,
-    borderRadius: 8,
+    borderRadius: 15,
     borderWidth: 1,
-    borderColor: '#f44336',
-    backgroundColor: 'transparent',
+    // borderColor: '#fff',
+    backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center',
   },
   botonEliminarText: {
-    color: '#f44336',
+    color: '#fff',
     fontSize: 14,
     fontWeight: '500',
   },
