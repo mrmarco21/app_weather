@@ -11,7 +11,7 @@ const DetalleClimaSeleccionado = ({ ciudadSeleccionada, datosClima }) => {
         <View style={styles.cardHeader}>
           <View>
             <Title style={styles.cardTitle}>{ciudadSeleccionada.name}</Title>
-            <Paragraph>{ciudadSeleccionada.country}</Paragraph>
+            <Paragraph style={styles.cardTitle}>{ciudadSeleccionada.country}</Paragraph>
           </View>
           <View style={styles.tempContainer}>
             <Text style={styles.tempText}>{Math.round(datosClima.current.temp_c)}°C</Text>
@@ -22,22 +22,22 @@ const DetalleClimaSeleccionado = ({ ciudadSeleccionada, datosClima }) => {
           <View style={styles.infoRow}>
             <View style={styles.infoItem}>
               <Ionicons name="water-outline" size={20} color="#0099ff" />
-              <Text>Humedad: {datosClima.current.humidity}%</Text>
+              <Text style={styles.infoItemText}>Humedad: {datosClima.current.humidity}%</Text>
             </View>
             <View style={styles.infoItem}>
               <Ionicons name="speedometer-outline" size={20} color="#0099ff" />
-              <Text>Presión: {datosClima.current.pressure_mb} hPa</Text>
+              <Text style={styles.infoItemText}>Presión: {datosClima.current.pressure_mb} hPa</Text>
             </View>
           </View>
           
           <View style={styles.infoRow}>
             <View style={styles.infoItem}>
               <Ionicons name="eye-outline" size={20} color="#0099ff" />
-              <Text>Visibilidad: {datosClima.current.vis_km} km</Text>
+              <Text style={styles.infoItemText}>Visibilidad: {datosClima.current.vis_km} km</Text>
             </View>
             <View style={styles.infoItem}>
               <Ionicons name="navigate-outline" size={20} color="#0099ff" />
-              <Text>Viento: {datosClima.current.wind_kph} km/h</Text>
+              <Text style={styles.infoItemText}>Viento: {datosClima.current.wind_kph} km/h</Text>
             </View>
           </View>
         </View>
