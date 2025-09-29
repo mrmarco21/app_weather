@@ -6,6 +6,7 @@ const EstadoBusquedaStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    
   },
   errorText: {
     marginTop: 10,
