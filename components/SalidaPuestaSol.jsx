@@ -15,7 +15,10 @@ const SalidaPuestaSol = ({ datosAstronomicos, esDeDia = true }) => {
     return null;
   }
 
-  const { sunrise, sunset } = datosAstronomicos.astronomy.astro;
+  // Extraer datos de forma segura
+  const astro = datosAstronomicos.astronomy.astro;
+  const sunrise = astro && astro.sunrise ? astro.sunrise : "No disponible";
+  const sunset = astro && astro.sunset ? astro.sunset : "No disponible";
 
   // Colores para día y noche
   const coloresGradiente = esDeDia 

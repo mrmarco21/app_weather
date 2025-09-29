@@ -133,7 +133,7 @@ const TarjetaFavorito = ({ favorito, index, formatearFecha, actualizarClima, con
           <View style={styles.cardHeader}>
             <View>
               <Title style={styles.cardTitle}>{ciudad.name}</Title>
-              <Paragraph>{ciudad.country}</Paragraph>
+              <Paragraph style={styles.cardTitle}>{ciudad.country}</Paragraph>
               <Text style={styles.fechaText}>
                 {cargandoHora ? 'Cargando hora local...' :
                   diferenciaHoraria !== null ? horaFormateada :
@@ -157,22 +157,22 @@ const TarjetaFavorito = ({ favorito, index, formatearFecha, actualizarClima, con
               <View style={styles.infoRow}>
                 <View style={styles.infoItem}>
                   <Ionicons name="water-outline" size={20} color="#0099ff" />
-                  <Text>Humedad: {ultimoClima.current.humidity}%</Text>
+                  <Text style={styles.infoItemText}>Humedad: {ultimoClima.current.humidity}%</Text>
                 </View>
                 <View style={styles.infoItem}>
                   <Ionicons name="speedometer-outline" size={20} color="#0099ff" />
-                  <Text>Presión: {ultimoClima.current.pressure_mb} hPa</Text>
+                  <Text style={styles.infoItemText}>Presión: {ultimoClima.current.pressure_mb} hPa</Text>
                 </View>
               </View>
 
               <View style={styles.infoRow}>
                 <View style={styles.infoItem}>
                   <Ionicons name="eye-outline" size={20} color="#0099ff" />
-                  <Text>Visibilidad: {ultimoClima.current.vis_km} km</Text>
+                  <Text style={styles.infoItemText}>Visibilidad: {ultimoClima.current.vis_km} km</Text>
                 </View>
                 <View style={styles.infoItem}>
                   <Ionicons name="thermometer-outline" size={20} color="#0099ff" />
-                  <Text>Sensación: {ultimoClima.current.feelslike_c}°C</Text>
+                  <Text style={styles.infoItemText}>Sensación: {ultimoClima.current.feelslike_c}°C</Text>
                 </View>
               </View>
 
@@ -187,11 +187,11 @@ const TarjetaFavorito = ({ favorito, index, formatearFecha, actualizarClima, con
               <View style={styles.infoRow}>
                 <View style={styles.infoItem}>
                   <Ionicons name="water-outline" size={20} color="#0099ff" />
-                  <Text>Humedad: {ultimoClima.current.humidity}%</Text>
+                  <Text style={styles.infoItemText}>Humedad: {ultimoClima.current.humidity}%</Text>
                 </View>
                 <View style={styles.infoItem}>
                   <Ionicons name="speedometer-outline" size={20} color="#0099ff" />
-                  <Text>Presión: {ultimoClima.current.pressure_mb} hPa</Text>
+                  <Text style={styles.infoItemText}>Presión: {ultimoClima.current.pressure_mb} hPa</Text>
                 </View>
               </View>
 
@@ -213,7 +213,7 @@ const TarjetaFavorito = ({ favorito, index, formatearFecha, actualizarClima, con
       </TouchableOpacity>
 
       <View style={styles.botonesContainer}>
-            <Button
+            <Button 
               mode="contained"
               onPress={() => handleSeleccionarCiudad()}
               style={styles.botonVerClima}

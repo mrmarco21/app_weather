@@ -5,7 +5,7 @@ const DetallesClimaStyles = StyleSheet.create({
     marginBottom: 16,
     borderRadius: 12,
     elevation: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
   },
   detailRow: {
     flexDirection: 'row',
@@ -15,6 +15,9 @@ const DetallesClimaStyles = StyleSheet.create({
   detailItem: {
     alignItems: 'center',
     flex: 1,
+  },
+  detailItemText: {
+    color: '#fff',
   },
   detailItemText: {
     color: '#fff',

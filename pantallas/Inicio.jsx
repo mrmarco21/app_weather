@@ -200,32 +200,35 @@ const Inicio = () => {
         break;
       case 1003: // Parcialmente nublado
         urlImagen = esDeDia
-          ? 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center' // Cielo con nubes
-          : 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Cielo nocturno nublado
+          ? 'https://images.pexels.com/photos/8872315/pexels-photo-8872315.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' // Cielo con nubes día
+          : 'https://img.freepik.com/fotos-premium/arboles-desnudos-campo-contra-cielo-nublado_1048944-17258260.jpg?semt=ais_incoming&w=740&q=80'; // Cielo nocturno nublado
         break;
       case 1006: // Nublado
-        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Cielo nublado
+        urlImagen = 'https://img.freepik.com/fotos-premium/tomada-vertical-luna-cielo-nublado_665346-56639.jpg'; // Cielo nublado
         break;
       case 1009: // Muy nublado
-        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Cielo muy nublado
+        urlImagen = 'https://images.unsplash.com/photo-1603288967520-f3e04381dc02?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bm9jaGUlMjBudWJsYWRhfGVufDB8fDB8fHww'; // Cielo muy nublado
         break;
       case 1030: // Niebla
-        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Niebla
+        urlImagen = 'https://res.cloudinary.com/dp1dzunfp/image/upload/v1759091073/niebla_alklz0.jpg'; // Niebla
         break;
-      case 1063: // Lluvia ligera
-        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Lluvia
+      case 1240: // Lluvia ligera
+        urlImagen = 'https://images.unsplash.com/photo-1635823288719-93f2c8ac7f3f?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Zm9uZG8lMjBkZSUyMHBhbnRhbGxhJTIwZGUlMjBsbHV2aWF8ZW58MHx8MHx8fDA%3D'; // Lluvia
+        break;
+      case 1063: // Lluvia moderada
+        urlImagen = 'https://www.shutterstock.com/image-photo/vertical-view-bedroom-window-city-600nw-2590420703.jpg'; // Lluvia
         break;
       case 1087: // Lluvia intensa
-        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Lluvia intensa
+        urlImagen = 'https://res.cloudinary.com/dp1dzunfp/image/upload/v1759094730/lluvia_lejera2_r5yvli.jpg'; // Lluvia intensa
         break;
       case 1114: // Nieve ligera
-        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Nieve
+        urlImagen = 'https://res.cloudinary.com/dp1dzunfp/image/upload/v1759091312/nieves_lijeras_vpee3g.jpg'; // Nieve
         break;
       case 1219: // Nieve intensa
-        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Tormenta de nieve
+        urlImagen = 'https://res.cloudinary.com/dp1dzunfp/image/upload/v1759091417/nieve_intensa_bcryry.jpg'; // Tormenta de nieve
         break;
       case 1273: // Tormenta eléctrica
-        urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Tormenta
+        urlImagen = 'https://res.cloudinary.com/dp1dzunfp/image/upload/v1759091488/tormenta_electrica_vay1u4.jpg'; // Tormenta
         break;
       default:
         urlImagen = 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1080&h=1920&fit=crop&crop=center'; // Por defecto

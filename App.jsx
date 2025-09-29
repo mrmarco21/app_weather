@@ -9,6 +9,7 @@ import { PaperProvider } from 'react-native-paper';
 import { View, Platform } from 'react-native';
 
 
+
 // Importar pantallas
 import Inicio from './pantallas/Inicio';
 import Busqueda from './pantallas/Busqueda';
@@ -42,6 +43,7 @@ function TabNavigator() {
       <Tab.Screen name="Inicio" component={Inicio} />
       <Tab.Screen name="Búsqueda" component={Busqueda} />
       <Tab.Screen name="Favoritos" component={Favoritos} />
+      
       
     </Tab.Navigator>
   );
