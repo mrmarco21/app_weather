@@ -133,7 +133,7 @@ const TarjetaFavorito = ({ favorito, index, formatearFecha, actualizarClima, con
           <View style={styles.cardHeader}>
             <View>
               <Title style={styles.cardTitle}>{ciudad.name}</Title>
-              <Paragraph style={styles.cardTitle}>{ciudad.country}</Paragraph>
+              <Paragraph style={styles.cardTitleCountry}>{ciudad.country}</Paragraph>
               <Text style={styles.fechaText}>
                 {cargandoHora ? 'Cargando hora local...' :
                   diferenciaHoraria !== null ? horaFormateada :
@@ -146,9 +146,11 @@ const TarjetaFavorito = ({ favorito, index, formatearFecha, actualizarClima, con
               <Text style={styles.tempText}>
                 {Math.round(ultimoClima.current.temp_c)}°C
               </Text>
-              <Text style={styles.minMaxTemp}>
-                {ultimoClima.forecast?.forecastday[1]?.day?.maxtemp_c ? `${Math.round(ultimoClima.forecast.forecastday[1].day.maxtemp_c)}° / ${Math.round(ultimoClima.forecast.forecastday[1].day.mintemp_c)}°` : ''}
-              </Text>
+              {expandido && (
+                <Text style={styles.minMaxTemp}>
+                  {ultimoClima.forecast?.forecastday[1]?.day?.maxtemp_c ? `${Math.round(ultimoClima.forecast.forecastday[1].day.maxtemp_c)}° / ${Math.round(ultimoClima.forecast.forecastday[1].day.mintemp_c)}°` : ''}
+                </Text>
+              )}
             </View>
           </View>
 
@@ -224,15 +226,15 @@ const TarjetaFavorito = ({ favorito, index, formatearFecha, actualizarClima, con
               mode="contained"
               onPress={() => actualizarClima(favorito, index)}
               style={styles.botonActualizar}
+              icon="refresh"
             >
-              Actualizar
             </Button>
             <TouchableOpacity
               onPress={handleEliminar}
               style={styles.botonEliminarTouchable}
               activeOpacity={0.7}
             >
-              <Text style={styles.botonEliminarText}>Eliminar</Text>
+              <Ionicons name="trash-outline" size={20} color="#fff" />
             </TouchableOpacity>
       </View>
     </Card>

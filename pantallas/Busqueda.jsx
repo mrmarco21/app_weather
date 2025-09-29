@@ -53,6 +53,10 @@ const Busqueda = ({ navigation }) => {
       // Guardar en favoritos
       guardarEnFavoritos(ciudad, datosClimaActual);
       
+      // Limpiar el buscador
+      setConsulta('');
+      setResultados([]);
+      
       setCargando(false);
     } catch (err) {
       console.error('Error al obtener clima de la ciudad:', err);
@@ -79,6 +83,11 @@ const Busqueda = ({ navigation }) => {
           ultimoClima: clima,
           fechaGuardado: new Date().toISOString()
         });
+        
+        // Limitar a 10 favoritos, eliminando el más antiguo si es necesario
+        if (favoritos.length > 10) {
+          favoritos = favoritos.slice(0, 10);
+        }
         
         // Guardar en AsyncStorage
         await AsyncStorage.setItem('favoritos', JSON.stringify(favoritos));

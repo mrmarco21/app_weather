@@ -7,7 +7,7 @@ const EncabezadoFavoritos = ({ favoritos, actualizarTodosFavoritos, actualizando
   return (
     <View style={styles.header}>
       <Text style={styles.headerTitle}>Mis Ciudades Favoritas</Text>
-      {favoritos.length > 0 && (
+      {/* {favoritos.length > 0 && (
         <TouchableOpacity 
           style={styles.refreshButton}
           onPress={actualizarTodosFavoritos}
@@ -19,7 +19,7 @@ const EncabezadoFavoritos = ({ favoritos, actualizarTodosFavoritos, actualizando
             color="#fff" 
           />
         </TouchableOpacity>
-      )}
+      )} */}
     </View>
   );
 };
