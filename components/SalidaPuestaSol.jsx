@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 15,
     padding: 15,
-    marginHorizontal: 15,
+    // marginHorizontal: 5,
     marginVertical: 10,
   },
   gradient: {

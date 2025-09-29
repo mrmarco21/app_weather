@@ -18,8 +18,13 @@ const TarjetaFavoritoStyles = StyleSheet.create({
     marginBottom: 10,
   },
   cardTitle: {
-    fontSize: 10,
+    fontSize: 15,
     fontWeight: 'bold',
+    color: '#fff',
+    textDecorationLine: 'underline',
+  },
+  cardTitleCountry: {
+    fontSize: 12,
     color: '#fff',
   },
   tempContainer: {
